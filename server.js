@@ -2,6 +2,7 @@ console.log('may the node be with you');
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
+const mongoClient = require('mongodb').MongoClient
 
 app.use(bodyParser.urlencoded({extended:true}))
 
@@ -12,5 +13,6 @@ app.get('/', (req,res) => {
     res.sendFile(__dirname + '/index.html')
 })
 app.post('/quotes',(req,res) => {
-    console.log('hey im here')
+    console.log(req.body)
 })
+
