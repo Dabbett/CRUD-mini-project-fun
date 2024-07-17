@@ -1,8 +1,19 @@
+require('dotenv').config();
+
+
 console.log('may the node be with you');
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
-const mongoClient = require('mongodb').MongoClient
+const MongoClient = require('mongodb').MongoClient
+const connectionString = process.env.CONNECTION_STRING;
+
+MongoClient.connect(connectionString)
+    .then(client => {
+        console.log('Connected to Database');
+    })
+    .catch(error => console.error(err))
+
 
 app.use(bodyParser.urlencoded({extended:true}))
 
