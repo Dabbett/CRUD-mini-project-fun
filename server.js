@@ -12,8 +12,14 @@ MongoClient.connect(connectionString)
         const db = client.db('Quotes')
         const quotesCollection = db.collection('quotes')
 
+        app.set('view engine', 'ejs')
         app.use(bodyParser.urlencoded({extended:true}))
         app.get('/', (req,res) => {
+            quotesCollection.find().toArray()
+                .then(results => {
+                    console.log(results)
+                })
+                .catch(error => console.error(error))
             res.sendFile(__dirname + '/index.html')
         })
         
@@ -21,6 +27,7 @@ MongoClient.connect(connectionString)
             quotesCollection.insertOne(req.body)
             .then(result => {
                 console.log(result)
+                res.redirect('/')
             })
             .catch(error => {
                 console.error(error)
