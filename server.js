@@ -14,13 +14,16 @@ MongoClient.connect(connectionString)
 
         app.set('view engine', 'ejs')
         app.use(bodyParser.urlencoded({extended:true}))
+        app.use(express.static('public'))
+        app.use(bodyParser.json())
+
         app.get('/', (req,res) => {
             quotesCollection.find().toArray()
-                .then(results => {
-                    console.log(results)
+                .then(result => {
+                    console.log(result)
+                    res.render('index.ejs', {quotes:result})
                 })
                 .catch(error => console.error(error))
-            res.render('index.ejs',{})
         })
         
         app.post('/quotes',(req,res) => {
@@ -33,6 +36,41 @@ MongoClient.connect(connectionString)
                 console.error(error)
             })
         })
+
+        app.put('/quotes', (req,res) => {
+            quotesCollection.findOneAndUpdate(
+                { species: 'red drum'},
+                {
+                    $set: {
+                        species: req.body.species,
+                        tip: req.body.tip
+                    }
+                },
+                {
+                    upsert: true
+                }
+            )
+            .then(result => {
+                console.log(result)
+                res.json('Success')
+            })
+            .catch(err => {
+                console.error(err)
+            })
+        })
+
+        app.delete('/quotes', (req,res) => {
+            quotesCollection.deleteOne(
+            {species: req.body.species },
+            )
+            .then(result =>
+                res.json('deleted tip')
+            )
+            .catch(error => console.error(error))
+        })
+
+
+
         app.listen(3000, function() {
             console.log('listening on port 3000')
         })

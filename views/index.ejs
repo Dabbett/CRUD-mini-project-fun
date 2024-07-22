@@ -10,7 +10,36 @@
         <input type="text" placeholder="Species" name="species">
         <input type="text" placeholder="Tip" name="tip">
         <button type="submit">Submit</button>
-        
     </form>
+    
+    <h2> Tips: </h2>
+    <ul class= 'tipList'>
+        <% for(var i = 0; i < quotes.length; i++) {%>
+            <li class="tip">
+                <span><%= quotes[i].species %></span>:
+                <span><%= quotes[i].tip %></span>
+            </li>
+        <% } %>
+    </ul>
+
+    <div>
+        <h2> Update a tip  </h2>
+        <p>replace the first drum tip with a pin fish tip</p>
+        <button id="update-button"> replace tip</button>
+    </div>
+
+    <div>
+        <h2> delete a tip </h2>
+        <p>detele one pin fish tip. does nothing if there is no pin fish tips</p>
+        <button id="delete-button"> replace tip</button>
+    </div>
+
+    <!-- <form action="update"> 
+        <input type="text" placeholder="species to replace" name="oldSpecies" id="oldspecies">
+        <input type="text" placeholder="species" name="newspecies" id="newspecies">
+        <input type="text" placeholder="Tip" name="tip">
+    </form>
+     -->
+    <script src="/main.js"></script>
 </body>
 </html>
