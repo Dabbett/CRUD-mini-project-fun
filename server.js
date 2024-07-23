@@ -63,9 +63,11 @@ MongoClient.connect(connectionString)
             quotesCollection.deleteOne(
             {species: req.body.species },
             )
-            .then(result =>
-                res.json('deleted tip')
-            )
+            .then(result => {
+                if(result.deletedCount === 0) {
+                    return res.json('No tip to delete') 
+                } res.json('Deleted tip')
+            })
             .catch(error => console.error(error))
         })
 
